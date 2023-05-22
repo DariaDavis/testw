@@ -11,14 +11,14 @@
 	  {
 		"kind": "main",
 		"tag": "t4data-sac-widget-createversion",
-		"url": "https://dev.streamline-c.com:8888/mergeGantt/src/customGantt.js",
+		"url": "https://gitlab.streamline-c.com:8889/DariaR/widget/createversion/createversion.js",
 		"integrity": "",
 		"ignoreIntegrity": true
 	  },
 	  {
       "kind": "styling",
       "tag": "t4data-sac-widget-createversionstyling",
-      "url": "https://dev.streamline-c.com:8888/mergeGantt/src/customGanttStyling.js",
+      "url": "https://gitlab.streamline-c.com:8889/DariaR/widget/createversion/createversionStyling.js",
       "integrity": "",
       "ignoreIntegrity": true
     }
