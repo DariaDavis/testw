@@ -1,0 +1,62 @@
+{
+	"id": "streamline.sac.widget.calcwidget",
+	"version": "0.0.2",
+	"name": "calcwidget",
+	"description": "calcwidget",
+	"newInstancePrefix": "calcwidget",
+	"vendor": "slc",
+	"eula": "",
+	"license": "",
+	"webcomponents": [
+	  {
+		"kind": "main",
+		"tag": "streamline-sac-widget-calcwidget",
+		"url": "https://dev.streamline-c.com:8888/mergeGantt/src/customGantt.js",
+		"integrity": "",
+		"ignoreIntegrity": true
+	  },
+	  {
+      "kind": "styling",
+      "tag": "streamline-sac-widget-calcwidgetstyling",
+      "url": "https://dev.streamline-c.com:8888/mergeGantt/src/customGanttStyling.js",
+      "integrity": "",
+      "ignoreIntegrity": true
+    }
+	],
+	"properties": {
+	  "metadata": {
+		"type": "string",
+		"description": "For internal use",
+		"default": ""
+	  },
+		"custValue": {
+		  "type": "string",
+		  "description": "footer",
+		  "default": ""
+		}
+	},
+	"methods": {
+		"getCustValue": {
+		  "returnType": "string",
+		  "description": "Get cust value",
+		  "parameters": [],
+		  "body": "return this.custValue;"
+		},
+		"setCustValue": {
+		  "description": "Set cust value",
+		  "parameters": [
+			{
+			  "name": "value",
+			  "type": "string",
+			  "description": "The new cust value"
+			}
+		  ],
+		  "body": "this.custValue = value;"
+		}
+	},
+	"events": {
+		"onStart": {
+			"description": "onStart events trigger"
+		}	
+	}
+  }
