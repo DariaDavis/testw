@@ -274,7 +274,7 @@
 							xmlns:mvc="sap.ui.core.mvc"
 							xmlns:core="sap.ui.core"
 							xmlns="sap.m">
-							<Table id="idVersionsTable" items="{view>/versionCollection'}">
+							<Table id="idVersionsTable" items="{view>/versionCollection}">
 								<headerToolbar>
 									<OverflowToolbar>
 										<content>
