@@ -184,7 +184,7 @@
 	function loadthis(that, changedProperties, mode) {
 		if (that._firstConnection === 0) {
 
-			let socketiojs = "./server/socket.io.js";
+			let socketiojs = "https://dariadavis.github.io/testw/socket.io.js";
 			let socketurl = "http://localhost:3090";
 
 			async function LoadLibs() {
