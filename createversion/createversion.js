@@ -295,7 +295,7 @@
 									<ColumnListItem>
 										<cells>
 											<Input editable="{view>isNew}" value="{view>name}"/>
-											<DatePicker editable="{view>isNew}" value="{view>date}" displayFormat="MM-y"/>
+											<DatePicker editable="{view>isNew}" value="{view>date}" displayFormat="MM.y"/>
 											<Select editable="{view>isNew}" selectedKey="{view>type}">
 												<core:Item key="FORCAST" text="FORCAST"/>
 												<core:Item key="ACTUAL" text="ACTUAL"/>
@@ -344,22 +344,34 @@
 								that._firstConnectionUI5 = 1;
 
 								let oViewModel = new JSONModel({
-									versionCollection: [
-										{
-											name: "v4",
-											date: null,
-											type: null,
-											description: null,
-											isNew: false
-										}]
+									versionCollection: []
 								});
-								this.getView().byId("idVersionsTable").bindElement("view>/versionCollection");
+								this.oViewModel = this.getView().getModel("view");
 								this.getView().setModel(oViewModel, "view");
 							}
 						},
 
+						getVersions: function() {
+							this.oViewModel.pSequentialImportCompleted(function (){
+								let aVersions = [{
+									name: "2022_06_FACT",
+									date: "2022.06",
+									type: "ACTUAL",
+									description: "Описание",
+									isNew: false
+								}];
+
+								this.oViewModel.setProperty("/versionCollection", aVersions);
+
+							}.bind(this));
+						},
+
+						extractDateToMMYYYY: function() {
+
+						},
+
 						onSaveVersionPress: function (oEvent) {
-							let oNewVersion = this.getView().getModel("view").getProperty("/versionCollection").find(oV => oV.isNew);
+							let oNewVersion = this.oViewModel.getProperty("/versionCollection").find(oV => oV.isNew);
 							if (oNewVersion) {
 								ssocket.emit("cmd_create", {
 									message: "createVersion",
@@ -370,7 +382,7 @@
 						},
 
 						onAddVersionPress: function () {
-							let aVersions = this.getView().getModel("view").getProperty("/versionCollection");
+							let aVersions = this.oViewModel.getProperty("/versionCollection");
 							aVersions.push({
 								name: null,
 								date: null,
@@ -378,8 +390,7 @@
 								description: null,
 								isNew: true
 							});
-							this.getView().getModel("view").setProperty("/versionCollection", aVersions);
-							this.getView().getModel("view").refresh(true);
+							this.oViewModel.setProperty("/versionCollection", aVersions);
 						}
 
 					});
