@@ -1,6 +1,7 @@
 (function () {
 	let _shadowRoot;
 
+    let Ar = [];
 	let _id;
 	let oTmpl = document.createElement("template");
 	let oCurrentView;
@@ -254,66 +255,74 @@
 			let div0 = document.createElement('div');
 
 			div0.innerHTML = `
-			<style>
-			</style>
-			<div id="ui5_content" name="ui5_content">				 
-			 <slot name="content">
-			 <script id="sap-ui-bootstrap"
-				src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
-				data-sap-ui-libs="sap.m"
-				data-sap-ui-xx-bindingSyntax="complex"
-				data-sap-ui-theme="sap_belize"
-				data-sap-ui-compatVersion="edge"
-				data-sap-ui-preload="async"'>
-			</script></slot>
-			</div>
+					<?xml version="1.0"?>
+					<div id="ui5_content" name="ui5_content">				 
+					<slot name="content">
+					<script id="sap-ui-bootstrap"
+						src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+						data-sap-ui-libs="sap.m"
+						data-sap-ui-xx-bindingSyntax="complex"
+						data-sap-ui-theme="sap_belize"
+						data-sap-ui-compatVersion="edge"
+						data-sap-ui-preload="async"'>
+					</script></slot>
+					</div>
+					
+					<script id="createVersionView" name="createVersionView" type="sapui5/xmlview">
+						<mvc:View
+							controllerName="createVersion.Template"
+							xmlns:mvc="sap.ui.core.mvc"
+							xmlns:core="sap.ui.core"
+							xmlns="sap.m">
+							<Table id="idVersionsTable" inset="false" items="{view>/versionCollection'}">
+								<headerToolbar>
+									<OverflowToolbar>
+										<content>
+											<Title text="Версии" level="H2"/>
+											<ToolbarSpacer />
+											<Button text="Сохранить" press="onSaveVersionPress"/>
+											<Button text="Добавить" press="onAddVersionPress"/>
+										</content>
+									</OverflowToolbar>
+								</headerToolbar>
+								<columns>
+									<Column><Text text="Название версии"/></Column>
+									<Column><Text text="Отчетный месяц"/></Column>
+									<Column><Text text="Тип версии"/></Column>
+									<Column><Text text="Текст"/></Column>
+								</columns>
+								<items>
+									<ColumnListItem>
+										<cells>
+											<Input editable="{view>isNew}" value="{view>name}"/>
+											<DatePicker editable="{view>isNew}" value="{view>date}" displayFormat="MM-y"/>
+											<Select editable="{view>isNew}" selectedKey="{view>type}">
+												<core:Item key="FORCAST" text="FORCAST"/>
+												<core:Item key="ACTUAL" text="ACTUAL"/>
+												<core:Item key="BUDGET" text="BUDGET"/>
+											</Select>
+											<TextArea editable="{view>isNew}" value="{view>description}" rows="1"/>
+										</cells>
+									</ColumnListItem>
+								</items>
+							</Table>
+						</mvc:View>
+					</script>        
+				`;
 			
-			<script id="createVersionView" name="createVersionView" type="sapui5/xmlview">
-				<mvc:View
-					controllerName="createVersion.Template"
-					xmlns:mvc="sap.ui.core.mvc"
-					xmlns:core="sap.ui.core"
-					xmlns="sap.m">
-					<Table id="idVersionsTable" inset="false" items="{view>/versionCollection'}">
-						<headerToolbar>
-							<OverflowToolbar>
-								<content>
-									<Title text="Версии" level="H2"/>
-									<ToolbarSpacer />
-									<Button text="Сохранить" press="onSaveVersionPress"/>
-									<Button text="Добавить" press="onAddVersionPress"/>
-								</content>
-							</OverflowToolbar>
-						</headerToolbar>
-						<columns>
-							<Column><Text text="Название версии"/></Column>
-							<Column><Text text="Отчетный месяц"/></Column>
-							<Column><Text text="Тип версии"/></Column>
-							<Column><Text text="Текст"/></Column>
-						</columns>
-						<items>
-							<ColumnListItem>
-								<cells>
-									<Input editable="{view>isNew}" value="{view>name}"/>
-									<DatePicker editable="{view>isNew}" value="{view>date}" displayFormat="MM-y"/>
-									<Select editable="{view>isNew}" selectedKey="{view>type}">
-										<core:Item key="FORCAST" text="FORCAST"/>
-										<core:Item key="ACTUAL" text="ACTUAL"/>
-										<core:Item key="BUDGET" text="BUDGET"/>
-									</Select>
-									<TextArea editable="{view>isNew}" value="{view>description}" rows="1"/>
-								</cells>
-							</ColumnListItem>
-						</items>
-					</Table>
-				</mvc:View>
-			</script>        
-		`;
 
 			_shadowRoot.appendChild(div0);
-			_shadowRoot.querySelector("#createVersionView").id = _id + "_createVersionView";
+			// _shadowRoot.querySelector("#createVersionView").id = _id + "_createVersionView";
 
 			that_.appendChild(content);
+			var mapcanvas_divstr = _shadowRoot.getElementById("createVersionView");
+
+            Ar.push({
+                'id': "createVersionView",
+                'div': mapcanvas_divstr
+            });
+            console.log(Ar);
+
 		}
 
 		sap.ui.getCore().attachInit(function () {
@@ -333,7 +342,7 @@
 						onInit: function () {
 							if (this._firstConnectionUI5 === 0) {
 								this._firstConnectionUI5 = 1;
-								
+
 								let oViewModel = new JSONModel({
 									versionCollection: []
 								});
@@ -368,8 +377,10 @@
 					});
 				});
 
+			var foundIndex = Ar.findIndex(x => x.id == "_ganttView");
+            var divfinal = Ar[foundIndex].div;
 			var oView = sap.ui.xmlview({
-				viewContent: jQuery(_shadowRoot.getElementById(_id + "_createVersionView")).html(),
+				viewContent: jQuery(divfinal).html(),
 			});
 			oView.placeAt(content);
 			oCurrentView = oView;
