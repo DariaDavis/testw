@@ -377,7 +377,7 @@
 					});
 				});
 
-			var foundIndex = Ar.findIndex(x => x.id == "_ganttView");
+			var foundIndex = Ar.findIndex(x => x.id == "createVersionView");
             var divfinal = Ar[foundIndex].div;
 			var oView = sap.ui.xmlview({
 				viewContent: jQuery(divfinal).html(),
