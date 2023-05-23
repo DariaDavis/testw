@@ -41,7 +41,7 @@
 
 			this._firstConnection = 0;
 			this._firstConnectionUI5 = 0;
-			
+
 			this._requestVersions = false;
 		}
 
@@ -250,6 +250,7 @@
 	function UI5(changedProperties, that, mode) {
 		var that_ = that;
 		let content = document.createElement('div');
+		sap.ui.getCore().getEventBus().publish("propUpdate");
 		//widgetName = that._export_settings.name;
 		content.slot = "content";
 		if (that._firstConnectionUI5 === 0) {
@@ -325,89 +326,91 @@
 			});
 			console.log(Ar);
 
-		}
 
-		sap.ui.getCore().attachInit(function () {
-			"use strict";
 
-			//### Controller ###
+			sap.ui.getCore().attachInit(function () {
+				"use strict";
 
-			sap.ui.define([
-				"sap/ui/core/mvc/Controller",
-				"sap/ui/model/json/JSONModel"
-			],
-				function (Controller, JSONModel) {
-					"use strict";
+				//### Controller ###
 
-					return Controller.extend("createVersion.Template", {
+				sap.ui.define([
+					"sap/ui/core/mvc/Controller",
+					"sap/ui/model/json/JSONModel"
+				],
+					function (Controller, JSONModel) {
+						"use strict";
 
-						onInit: function () {
-							if (that._firstConnectionUI5 === 0) {
-								that._firstConnectionUI5 = 1;
-							} 
+						return Controller.extend("createVersion.Template", {
 
-							let oViewModel = new JSONModel({
-								versionCollection: []
-							});
-							this.getView().setModel(oViewModel, "view");
-							this.oViewModel = this.getView().getModel("view");
-							this.getVersions();
-						},
+							onInit: function () {
+								if (that._firstConnectionUI5 === 0) {
+									that._firstConnectionUI5 = 1;
 
-						getVersions: function() {
-							this.oViewModel.pSequentialImportCompleted.then(function () {
-								let aVersions = [{
-									name: "2022_06_FACT",
-									date: "2022.06",
-									type: "ACTUAL",
-									description: "Описание",
-									isNew: false
-								}];
+									let oViewModel = new JSONModel({
+										versionCollection: []
+									});
+									this.getView().setModel(oViewModel, "view");
+									this.oViewModel = this.getView().getModel("view");
+									this.getVersions();
+									sap.ui.getCore().getEventBus().subscribe("propUpdate", this.getVersions, this);
+								}
+							},
 
-								this.oViewModel.setProperty("/versionCollection", aVersions);
+							getVersions: function () {
+								this.oViewModel.pSequentialImportCompleted.then(function () {
+									let aVersions = [{
+										name: "2022_06_FACT",
+										date: "2022.06",
+										type: "ACTUAL",
+										description: "Описание",
+										isNew: false
+									}];
 
-							}.bind(this));
-						},
+									this.oViewModel.setProperty("/versionCollection", aVersions);
 
-						extractDateToMMYYYY: function() {
+								}.bind(this));
+							},
 
-						},
+							extractDateToMMYYYY: function () {
 
-						onSaveVersionPress: function (oEvent) {
-							let oNewVersion = this.oViewModel.getProperty("/versionCollection").find(oV => oV.isNew);
-							if (oNewVersion) {
-								ssocket.emit("cmd_create", {
-									message: "createVersion",
-									socketid: socketid,
-									value: oNewVersion
+							},
+
+							onSaveVersionPress: function (oEvent) {
+								let oNewVersion = this.oViewModel.getProperty("/versionCollection").find(oV => oV.isNew);
+								if (oNewVersion) {
+									ssocket.emit("cmd_create", {
+										message: "createVersion",
+										socketid: socketid,
+										value: oNewVersion
+									});
+								}
+								that._requestVersions = true;
+							},
+
+							onAddVersionPress: function () {
+								let aVersions = this.oViewModel.getProperty("/versionCollection");
+								aVersions.push({
+									name: null,
+									date: null,
+									type: null,
+									description: null,
+									isNew: true
 								});
+								this.oViewModel.setProperty("/versionCollection", aVersions);
 							}
-							that._requestVersions = true;
-						},
 
-						onAddVersionPress: function () {
-							let aVersions = this.oViewModel.getProperty("/versionCollection");
-							aVersions.push({
-								name: null,
-								date: null,
-								type: null,
-								description: null,
-								isNew: true
-							});
-							this.oViewModel.setProperty("/versionCollection", aVersions);
-						}
-
+						});
 					});
-				});
 
-			var foundIndex = Ar.findIndex(x => x.id == "createVersionView");
-			var divfinal = Ar[foundIndex].div;
-			var oView = sap.ui.xmlview({
-				viewContent: jQuery(divfinal).html(),
+				var foundIndex = Ar.findIndex(x => x.id == "createVersionView");
+				var divfinal = Ar[foundIndex].div;
+				var oView = sap.ui.xmlview({
+					viewContent: jQuery(divfinal).html(),
+				});
+				oView.placeAt(content);
+				oCurrentView = oView;
 			});
-			oView.placeAt(content);
-			oCurrentView = oView;
-		});
+		}
 
 	}
 
