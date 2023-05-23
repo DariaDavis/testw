@@ -348,6 +348,8 @@
 								});
 								this.oViewModel = this.getView().getModel("view");
 								this.getView().setModel(oViewModel, "view");
+							} else {
+								this.getVersions();
 							}
 						},
 
