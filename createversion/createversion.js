@@ -340,8 +340,8 @@
 					return Controller.extend("createVersion.Template", {
 
 						onInit: function () {
-							if (this._firstConnectionUI5 === 0) {
-								this._firstConnectionUI5 = 1;
+							if (that._firstConnectionUI5 === 0) {
+								that._firstConnectionUI5 = 1;
 
 								let oViewModel = new JSONModel({
 									versionCollection: []
@@ -352,7 +352,7 @@
 						},
 
 						onSaveVersionPress: function (oEvent) {
-							let oNewVersion = this.getModel("view").getProperty("/versionCollection").find(oV => oV.isNew);
+							let oNewVersion = this.getView().getModel("view").getProperty("/versionCollection").find(oV => oV.isNew);
 							if (oNewVersion) {
 								ssocket.emit("cmd_create", {
 									message: "createVersion",
@@ -363,7 +363,7 @@
 						},
 
 						onAddVersionPress: function () {
-							let aVersions = this.getModel("view").getProperty("/versionCollection");
+							let aVersions = this.getView().getModel("view").getProperty("/versionCollection");
 							aVersions.push({
 								name: null,
 								date: null,
