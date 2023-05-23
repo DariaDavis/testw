@@ -19,7 +19,7 @@
 				data-sap-ui-preload="async"'>
 			</script>      
     `;
-	
+
 	class CreateVersion extends HTMLElement {
 
 		constructor() {
@@ -30,9 +30,9 @@
 			});
 			_shadowRoot.appendChild(oTmpl.content.cloneNode(true));
 
-			_id = "DataSet1";
+			_id = "";
 			this._export_settings = {};
-			this._export_settings.custValue = "DataSet1";
+			this._export_settings.custValue = "";
 
 			this.addEventListener("click", event => {
 				console.log('click');
