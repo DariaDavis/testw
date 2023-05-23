@@ -7,21 +7,19 @@
 	let ssocket;
 	let socketid;
 
-	// oTmpl.innerHTML = `
-    //   <style>
-    //   </style>
-	// 	<script 
-	// 			src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
-	// 			data-sap-ui-libs="sap.m"
-	// 			data-sap-ui-xx-bindingSyntax="complex"
-	// 			data-sap-ui-theme="sap_belize"
-	// 			data-sap-ui-compatVersion="edge"
-	// 			data-sap-ui-preload="async"'>
-	// 		</script>      
-    // `;
-
-	// document.getElementsByTagName('head')[0].innerHTML += '<meta http-equiv="Content-Security-Policy" content="default-src gap://ready file://* *; style-src \'self\' http://* https://* \'unsafe-inline\'; script-src \'self\' http://* https://* \'unsafe-inline\' \'unsafe-eval\'">';
-
+	oTmpl.innerHTML = `
+      <style>
+      </style>
+		<script 
+				src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+				data-sap-ui-libs="sap.m"
+				data-sap-ui-xx-bindingSyntax="complex"
+				data-sap-ui-theme="sap_belize"
+				data-sap-ui-compatVersion="edge"
+				data-sap-ui-preload="async"'>
+			</script>      
+    `;
+	
 	class CreateVersion extends HTMLElement {
 
 		constructor() {
@@ -254,21 +252,20 @@
 		if (this._firstConnectionUI5 === 0) {
 
 			let div0 = document.createElement('div');
-		// 	<script id="sap-ui-bootstrap"
-		// 	src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
-		// 	data-sap-ui-libs="sap.m"
-		// 	data-sap-ui-xx-bindingSyntax="complex"
-		// 	data-sap-ui-theme="sap_belize"
-		// 	data-sap-ui-compatVersion="edge"
-		// 	data-sap-ui-preload="async"'>
-		// </script>
 
 			div0.innerHTML = `
 			<style>
 			</style>
 			<div id="ui5_content" name="ui5_content">				 
 			 <slot name="content">
-			</slot>
+			 <script id="sap-ui-bootstrap"
+				src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+				data-sap-ui-libs="sap.m"
+				data-sap-ui-xx-bindingSyntax="complex"
+				data-sap-ui-theme="sap_belize"
+				data-sap-ui-compatVersion="edge"
+				data-sap-ui-preload="async"'>
+			</script></slot>
 			</div>
 			
 			<script id="createVersionView" name="createVersionView" type="sapui5/xmlview">
