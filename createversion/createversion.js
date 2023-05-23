@@ -371,7 +371,7 @@
 								description: null,
 								isNew: true
 							});
-							this.getModel("view").setProperty("/versionCollection", aVersions);
+							this.getView().getModel("view").setProperty("/versionCollection", aVersions);
 						}
 
 					});
