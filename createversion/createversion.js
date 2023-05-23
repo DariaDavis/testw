@@ -41,6 +41,8 @@
 
 			this._firstConnection = 0;
 			this._firstConnectionUI5 = 0;
+			
+			this._requestVersions = false;
 		}
 
 		connectedCallback() {
@@ -348,13 +350,16 @@
 								});
 								this.oViewModel = this.getView().getModel("view");
 								this.getView().setModel(oViewModel, "view");
-							} else {
+								this.getVersions();
+							} 
+							if (that._requestVersions) {								
+								that._requestVersions = false;
 								this.getVersions();
 							}
 						},
 
 						getVersions: function() {
-							this.getView().getModel("view").pSequentialImportCompleted(function () {
+							this.oViewModel.pSequentialImportCompleted(function () {
 								let aVersions = [{
 									name: "2022_06_FACT",
 									date: "2022.06",
@@ -381,6 +386,7 @@
 									value: oNewVersion
 								});
 							}
+							that._requestVersions = true;
 						},
 
 						onAddVersionPress: function () {
