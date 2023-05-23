@@ -344,18 +344,14 @@
 						onInit: function () {
 							if (that._firstConnectionUI5 === 0) {
 								that._firstConnectionUI5 = 1;
-
-								let oViewModel = new JSONModel({
-									versionCollection: []
-								});
-								this.getView().setModel(oViewModel, "view");
-								this.oViewModel = this.getView().getModel("view");
-								this.getVersions();
 							} 
-							if (that._requestVersions) {								
-								that._requestVersions = false;
-								this.getVersions();
-							}
+
+							let oViewModel = new JSONModel({
+								versionCollection: []
+							});
+							this.getView().setModel(oViewModel, "view");
+							this.oViewModel = this.getView().getModel("view");
+							this.getVersions();
 						},
 
 						getVersions: function() {
