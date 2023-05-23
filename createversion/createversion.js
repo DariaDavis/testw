@@ -1,7 +1,7 @@
 (function () {
 	let _shadowRoot;
 
-    let Ar = [];
+	let Ar = [];
 	let _id;
 	let oTmpl = document.createElement("template");
 	let oCurrentView;
@@ -274,7 +274,7 @@
 							xmlns:mvc="sap.ui.core.mvc"
 							xmlns:core="sap.ui.core"
 							xmlns="sap.m">
-							<Table id="idVersionsTable" inset="false" items="{view>/versionCollection'}">
+							<Table id="idVersionsTable" items="{view>/versionCollection'}">
 								<headerToolbar>
 									<OverflowToolbar>
 										<content>
@@ -309,7 +309,7 @@
 						</mvc:View>
 					</script>        
 				`;
-			
+
 
 			_shadowRoot.appendChild(div0);
 			// _shadowRoot.querySelector("#createVersionView").id = _id + "_createVersionView";
@@ -317,11 +317,11 @@
 			that_.appendChild(content);
 			var mapcanvas_divstr = _shadowRoot.getElementById("createVersionView");
 
-            Ar.push({
-                'id': "createVersionView",
-                'div': mapcanvas_divstr
-            });
-            console.log(Ar);
+			Ar.push({
+				'id': "createVersionView",
+				'div': mapcanvas_divstr
+			});
+			console.log(Ar);
 
 		}
 
@@ -344,9 +344,16 @@
 								that._firstConnectionUI5 = 1;
 
 								let oViewModel = new JSONModel({
-									versionCollection: []
+									versionCollection: [
+										{
+											name: "v4",
+											date: null,
+											type: null,
+											description: null,
+											isNew: false
+										}]
 								});
-
+								this.getView().byId("idVersionsTable").bindElement("view>/versionCollection");
 								this.getView().setModel(oViewModel, "view");
 							}
 						},
@@ -372,13 +379,14 @@
 								isNew: true
 							});
 							this.getView().getModel("view").setProperty("/versionCollection", aVersions);
+							this.getView().getModel("view").refresh(true);
 						}
 
 					});
 				});
 
 			var foundIndex = Ar.findIndex(x => x.id == "createVersionView");
-            var divfinal = Ar[foundIndex].div;
+			var divfinal = Ar[foundIndex].div;
 			var oView = sap.ui.xmlview({
 				viewContent: jQuery(divfinal).html(),
 			});
