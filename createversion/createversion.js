@@ -31,7 +31,7 @@
 			});
 			_shadowRoot.appendChild(oTmpl.content.cloneNode(true));
 
-			_id = "";
+			_id = createGuid();
 			this._export_settings = {};
 			this._export_settings.custValue = "";
 
@@ -250,7 +250,7 @@
 		let content = document.createElement('div');
 		//widgetName = that._export_settings.name;
 		content.slot = "content";
-		if (this._firstConnectionUI5 === 0) {
+		if (that._firstConnectionUI5 === 0) {
 
 			let div0 = document.createElement('div');
 
