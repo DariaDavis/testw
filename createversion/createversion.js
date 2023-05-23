@@ -348,8 +348,8 @@
 								let oViewModel = new JSONModel({
 									versionCollection: []
 								});
-								this.oViewModel = this.getView().getModel("view");
 								this.getView().setModel(oViewModel, "view");
+								this.oViewModel = this.getView().getModel("view");
 								this.getVersions();
 							} 
 							if (that._requestVersions) {								
