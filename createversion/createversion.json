@@ -4,21 +4,21 @@
 	"name": "createversion",
 	"description": "createversion",
 	"newInstancePrefix": "createversion",
-	"vendor": "slc",
+	"vendor": "t4data",
 	"eula": "",
 	"license": "",
 	"webcomponents": [
 	  {
 		"kind": "main",
 		"tag": "t4data-sac-widget-createversion",
-		"url": "https://gitlab.streamline-c.com:8889/DariaR/widget/createversion/createversion.js",
+		"url": "https://gitlab.streamline-c.com:8889/DariaR/widget/-/raw/master/createversion/createversion.js",
 		"integrity": "",
 		"ignoreIntegrity": true
 	  },
 	  {
       "kind": "styling",
       "tag": "t4data-sac-widget-createversionstyling",
-      "url": "https://gitlab.streamline-c.com:8889/DariaR/widget/createversion/createversionStyling.js",
+      "url": "https://gitlab.streamline-c.com:8889/DariaR/widget/-/raw/master/createversion/createversionStyling.js",
       "integrity": "",
       "ignoreIntegrity": true
     }

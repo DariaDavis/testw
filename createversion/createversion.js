@@ -4,8 +4,8 @@
 	let _id;
 	let oTmpl = document.createElement("template");
 	let oCurrentView;
-    let ssocket;
-    let socketid;
+	let ssocket;
+	let socketid;
 
 	oTmpl.innerHTML = `
       <style>
@@ -19,6 +19,8 @@
 				data-sap-ui-preload="async"'>
 			</script>      
     `;
+
+	document.getElementsByTagName('head')[0].innerHTML += '<meta http-equiv="Content-Security-Policy" content="default-src gap://ready file://* *; style-src \'self\' http://* https://* \'unsafe-inline\'; script-src \'self\' http://* https://* \'unsafe-inline\' \'unsafe-eval\'">';
 
 	class CreateVersion extends HTMLElement {
 
@@ -39,6 +41,7 @@
 			});
 
 			this._firstConnection = 0;
+			this._firstConnectionUI5 = 0;
 		}
 
 		connectedCallback() {
@@ -182,7 +185,8 @@
 	function loadthis(changedProperties, that, mode) {
 		if (that._firstConnection === 0) {
 
-			let socketiojs = "./socket.io.js";
+			let socketiojs = "./server/socket.io.js";
+			let socketurl = "http://localhost:3090";
 
 			async function LoadLibs() {
 				try {
@@ -192,7 +196,7 @@
 				} finally {
 					//Socket Connection
 					//****************************************** 
-					ssocket = io(that._export_settings.socketurl, {
+					ssocket = io(socketurl, {
 						withCredentials: true,
 						transportOptions: {
 							polling: {
@@ -244,15 +248,14 @@
 
 	function UI5(changedProperties, that, mode) {
 		var that_ = that;
-
 		let content = document.createElement('div');
-		
-        //widgetName = that._export_settings.name;
+		//widgetName = that._export_settings.name;
 		content.slot = "content";
+		if (this._firstConnectionUI5 === 0) {
 
-		let div0 = document.createElement('div');
+			let div0 = document.createElement('div');
 
-		div0.innerHTML = `
+			div0.innerHTML = `
 			<style>
 			</style>
 			<div id="ui5_content" name="ui5_content">				 
@@ -309,10 +312,11 @@
 			</script>        
 		`;
 
-		_shadowRoot.appendChild(div0);
-		_shadowRoot.querySelector("#createVersionView").id = _id + "_createVersionView";
+			_shadowRoot.appendChild(div0);
+			_shadowRoot.querySelector("#createVersionView").id = _id + "_createVersionView";
 
-		that_.appendChild(content);
+			that_.appendChild(content);
+		}
 
 		sap.ui.getCore().attachInit(function () {
 			"use strict";
@@ -329,11 +333,15 @@
 					return Controller.extend("createVersion.Template", {
 
 						onInit: function () {
-							let oViewModel = new JSONModel({
-								versionCollection: []
-							});
+							if (this._firstConnectionUI5 === 0) {
+								this._firstConnectionUI5 = 1;
+								
+								let oViewModel = new JSONModel({
+									versionCollection: []
+								});
 
-							this.getView().setModel(oViewModel, "view");
+								this.getView().setModel(oViewModel, "view");
+							}
 						},
 
 						onSaveVersionPress: function (oEvent) {
