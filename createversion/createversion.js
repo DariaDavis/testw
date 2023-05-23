@@ -359,7 +359,7 @@
 						},
 
 						getVersions: function() {
-							this.oViewModel.pSequentialImportCompleted(function () {
+							this.oViewModel.pSequentialImportCompleted.then(function () {
 								let aVersions = [{
 									name: "2022_06_FACT",
 									date: "2022.06",
