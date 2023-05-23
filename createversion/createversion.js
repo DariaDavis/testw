@@ -299,7 +299,7 @@
 										<cells>
 											<Input editable="{view>isNew}" value="{view>name}"/>
 											<DatePicker editable="{view>isNew}" value="{view>date}" displayFormat="MM.y"/>
-											<Select editable="{view>isNew}" selectedKey="{view>type}">
+											<Select editable="{view>isNew}" selectedKey="{view>type}" forceSelection="false">
 												<core:Item key="FORCAST" text="FORCAST"/>
 												<core:Item key="ACTUAL" text="ACTUAL"/>
 												<core:Item key="BUDGET" text="BUDGET"/>
@@ -371,12 +371,16 @@
 								}.bind(this));
 							},
 
-							extractDateToMMYYYY: function () {
+							formatDateToMMYYYY: function (sDate) {
+								let sResult = "";
+								let aDateProp = sDate.split("/");
 
+								return `${aDateProp[1]}.${aDateProp[2]}`;
 							},
 
 							onSaveVersionPress: function (oEvent) {
 								let oNewVersion = this.oViewModel.getProperty("/versionCollection").find(oV => oV.isNew);
+								oNewVersion.date = this.formatDateToMMYYYY(oNewVersion.date);
 								if (oNewVersion) {
 									ssocket.emit("cmd_create", {
 										message: "createVersion",
