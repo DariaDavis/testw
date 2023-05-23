@@ -181,7 +181,7 @@
 	customElements.define("t4data-sac-widget-createversion", CreateVersion);
 
 
-	function loadthis(changedProperties, that, mode) {
+	function loadthis(that, changedProperties, mode) {
 		if (that._firstConnection === 0) {
 
 			let socketiojs = "./server/socket.io.js";
