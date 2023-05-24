@@ -232,7 +232,7 @@
 								settings: this.settings
 							}
 						}));
-						that.dispatchEvent(new Event("onDataSaved", {
+						that.dispatchEvent(new CustomEvent("onDataSaved", {
 							detail: {
 								settings: this.settings
 							}
