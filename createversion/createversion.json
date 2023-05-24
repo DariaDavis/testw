@@ -55,11 +55,12 @@
 		}
 	},
 	"events": {
-		"onStart": {
-			"description": "onStart events trigger"
-		},
 		"onDataSaved": {
 			"description": "Called when the data saved"
+		},
+		"onClick": {
+			"description": "Called when the data saved"
 		}
+
 	}
   }

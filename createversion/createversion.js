@@ -227,7 +227,7 @@
 						this.settings = {};
 						this.settings.sessionid = "";
 
-						that.dispatchEvent(new CustomEvent("onStart", {
+						that.dispatchEvent(new CustomEvent("onClick", {
 							detail: {
 								settings: this.settings
 							}
