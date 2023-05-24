@@ -370,7 +370,7 @@
 							checkSavingEnabled: function () {
 								let oVersion = this.oViewModel.getProperty("/version");
 								let bIsEnabled = oVersion.name && oVersion.date && oVersion.type && oVersion.description;
-								this.oViewModel.setProperty("/isEnabledToSave", bIsEnabled);
+								this.oViewModel.setProperty("/isEnabledToSave", !!bIsEnabled);
 							},
 
 							formatDateToMMYYYY: function (sDate) {
@@ -382,7 +382,7 @@
 							onSaveVersionPress: function (oEvent) {
 								let oNewVersion = this.oViewModel.getProperty("/version");
 								
-								let bIsAbleToSave= oVersion.name && oVersion.date && oVersion.type && oVersion.description;
+								let bIsAbleToSave= oNewVersion.name && oNewVersion.date && oNewVersion.type && oNewVersion.description;
 								if (bIsAbleToSave) {									
 									oNewVersion.date = this.formatDateToMMYYYY(oNewVersion.date);
 									this.oVersionForm.setBusy(true);						
