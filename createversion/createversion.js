@@ -35,14 +35,8 @@
 			this._export_settings = {};
 			this._export_settings.custValue = "";
 
-			this.addEventListener("click", event => {
-				console.log('click');
-			});
-
 			this._firstConnection = 0;
 			this._firstConnectionUI5 = 0;
-
-			this._requestVersions = false;
 		}
 
 		connectedCallback() {
@@ -225,12 +219,20 @@
 
 						UI5(changedProperties, that, "msg");
 
+						
+						sap.ui.getCore().getEventBus().publish("versionLoaded", data);
+
 						that._firePropertiesChanged();
 
 						this.settings = {};
 						this.settings.sessionid = "";
 
 						that.dispatchEvent(new CustomEvent("onStart", {
+							detail: {
+								settings: this.settings
+							}
+						}));
+						that.dispatchEvent(new Event("onDataSaved", {
 							detail: {
 								settings: this.settings
 							}
@@ -250,7 +252,6 @@
 	function UI5(changedProperties, that, mode) {
 		var that_ = that;
 		let content = document.createElement('div');
-		sap.ui.getCore().getEventBus().publish("propUpdate");
 		//widgetName = that._export_settings.name;
 		content.slot = "content";
 		if (that._firstConnectionUI5 === 0) {
@@ -275,40 +276,31 @@
 						<mvc:View
 							controllerName="createVersion.Template"
 							xmlns:mvc="sap.ui.core.mvc"
-							xmlns:core="sap.ui.core"
+							xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form"
 							xmlns="sap.m">
-							<Table id="idVersionsTable" items="{view>/versionCollection}">
-								<headerToolbar>
-									<OverflowToolbar>
-										<content>
-											<Title text="Версии" level="H2"/>
+							<VBox>
+								<form:SimpleForm id="versionForm">								
+									<form:toolbar>
+										<Toolbar>
+											<Title text="Добавить версию"/>
 											<ToolbarSpacer />
-											<Button text="Сохранить" press="onSaveVersionPress"/>
-											<Button text="Добавить" press="onAddVersionPress"/>
-										</content>
-									</OverflowToolbar>
-								</headerToolbar>
-								<columns>
-									<Column><Text text="Название версии"/></Column>
-									<Column><Text text="Отчетный месяц"/></Column>
-									<Column><Text text="Тип версии"/></Column>
-									<Column><Text text="Текст"/></Column>
-								</columns>
-								<items>
-									<ColumnListItem>
-										<cells>
-											<Input editable="{view>isNew}" value="{view>name}"/>
-											<DatePicker editable="{view>isNew}" value="{view>date}" displayFormat="MM.y"/>
-											<Select editable="{view>isNew}" selectedKey="{view>type}" forceSelection="false">
-												<core:Item key="FORCAST" text="FORCAST"/>
-												<core:Item key="ACTUAL" text="ACTUAL"/>
-												<core:Item key="BUDGET" text="BUDGET"/>
-											</Select>
-											<TextArea editable="{view>isNew}" value="{view>description}" rows="1"/>
-										</cells>
-									</ColumnListItem>
-								</items>
-							</Table>
+											<Button text="Сохранить" enabled="{= ${view>date} &amp;&amp; ${view>name} &amp;&amp; ${view>type} &amp;&amp; ${view>description} }" press="onSaveVersionPress"/>
+										</Toolbar>
+									</form:toolbar>
+									<Label text="Название версии" required="true"/>
+									<Input value="{view>name}"/>
+									<Label text="Отчетный месяц"/>
+									<DatePicker value="{view>date}" displayFormat="MM.y"/>
+									<Label text="Тип версии"/>
+										<Select selectedKey="{view>type}" forceSelection="false">
+											<core:Item key="FORCAST" text="FORCAST"/>
+											<core:Item key="ACTUAL" text="ACTUAL"/>
+											<core:Item key="BUDGET" text="BUDGET"/>
+										</Select>
+									<Label text="Текст"/>
+									<TextArea value="{view>description}" rows="2"/>
+								</form:SimpleForm>
+							</VBox>							
 						</mvc:View>
 					</script>        
 				`;
@@ -347,60 +339,50 @@
 									that._firstConnectionUI5 = 1;
 
 									let oViewModel = new JSONModel({
-										versionCollection: []
+										version: {
+											name: null,
+											date: null,
+											type: null,
+											description: null
+										}
 									});
 									this.getView().setModel(oViewModel, "view");
 									this.oViewModel = this.getView().getModel("view");
-									this.getVersions();
-									sap.ui.getCore().getEventBus().subscribe("propUpdate", this.getVersions, this);
+									this.oVersionForm = this.getView().byId("versionForm");
+									this.oVersionForm.bindElement("view>/version");
+									sap.ui.getCore().getEventBus().subscribe("versionLoaded", this.onVersionLoaded, this);
 								}
 							},
 
-							getVersions: function () {
-								this.oViewModel.pSequentialImportCompleted.then(function () {
-									let aVersions = [{
-										name: "2022_06_FACT",
-										date: "2022.06",
-										type: "ACTUAL",
-										description: "Описание",
-										isNew: false
-									}];
+							onVersionLoaded: function (oResponse) {
 
-									this.oViewModel.setProperty("/versionCollection", aVersions);
+								if (oResponse.status === "OK") {									
+									this.oViewModel.setProperty("/version", {
+										name: null,
+										date: null,
+										type: null,
+										description: null
+									});
+								}
 
-								}.bind(this));
+								this.oVersionForm.setBusy(false);
 							},
 
 							formatDateToMMYYYY: function (sDate) {
 								let sResult = "";
 								let aDateProp = sDate.split("/");
-
 								return `${aDateProp[1]}.${aDateProp[2]}`;
 							},
 
 							onSaveVersionPress: function (oEvent) {
-								let oNewVersion = this.oViewModel.getProperty("/versionCollection").find(oV => oV.isNew);
+								let oNewVersion = this.oViewModel.getProperty("/version");
 								oNewVersion.date = this.formatDateToMMYYYY(oNewVersion.date);
-								if (oNewVersion) {
-									ssocket.emit("cmd_create", {
-										message: "createVersion",
-										socketid: socketid,
-										value: oNewVersion
-									});
-								}
-								that._requestVersions = true;
-							},
-
-							onAddVersionPress: function () {
-								let aVersions = this.oViewModel.getProperty("/versionCollection");
-								aVersions.push({
-									name: null,
-									date: null,
-									type: null,
-									description: null,
-									isNew: true
-								});
-								this.oViewModel.setProperty("/versionCollection", aVersions);
+								this.oVersionForm.setBusy(true);						
+								ssocket.emit("cmd_create", {
+									message: "createVersion",
+									socketid: socketid,
+									value: oNewVersion
+								});								
 							}
 
 						});
