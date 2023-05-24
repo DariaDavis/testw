@@ -284,21 +284,21 @@
 										<Toolbar>
 											<Title text="Добавить версию"/>
 											<ToolbarSpacer />
-											<Button text="Сохранить" enabled="{= ${view>date} &amp;&amp; ${view>name} &amp;&amp; ${view>type} &amp;&amp; ${view>description} }" press="onSaveVersionPress"/>
+											<Button text="Сохранить" enabled="{view>/isEnabledToSave}" press="onSaveVersionPress"/>
 										</Toolbar>
 									</form:toolbar>
 									<Label text="Название версии" required="true"/>
-									<Input value="{view>name}"/>
-									<Label text="Отчетный месяц"/>
-									<DatePicker value="{view>date}" displayFormat="MM.y"/>
-									<Label text="Тип версии"/>
-										<Select selectedKey="{view>type}" forceSelection="false">
+									<Input value="{view>name}" valueLiveUpdate="true" liveChange="checkSavingEnabled"/>
+									<Label text="Отчетный месяц" required="true"/>
+									<DatePicker value="{view>date}" displayFormat="MM.y" change="checkSavingEnabled"/>
+									<Label text="Тип версии" required="true"/>
+										<Select selectedKey="{view>type}" forceSelection="false" change="checkSavingEnabled">
 											<core:Item key="FORCAST" text="FORCAST"/>
 											<core:Item key="ACTUAL" text="ACTUAL"/>
 											<core:Item key="BUDGET" text="BUDGET"/>
 										</Select>
-									<Label text="Текст"/>
-									<TextArea value="{view>description}" rows="2"/>
+									<Label text="Текст" required="true"/>
+									<TextArea value="{view>description}" rows="2" valueLiveUpdate="true" liveChange="checkSavingEnabled"/>
 								</form:SimpleForm>
 							</VBox>							
 						</mvc:View>
@@ -339,6 +339,7 @@
 									that._firstConnectionUI5 = 1;
 
 									let oViewModel = new JSONModel({
+										isEnabledToSave: false,
 										version: {
 											name: null,
 											date: null,
@@ -355,7 +356,6 @@
 							},
 
 							onVersionLoaded: function (oResponse) {
-
 								if (oResponse.status === "OK") {									
 									this.oViewModel.setProperty("/version", {
 										name: null,
@@ -364,8 +364,13 @@
 										description: null
 									});
 								}
-
 								this.oVersionForm.setBusy(false);
+							},
+
+							checkSavingEnabled: function () {
+								let oVersion = this.oViewModel.getProperty("/version");
+								let bIsEnabled = oVersion.name && oVersion.date && oVersion.type && oVersion.description;
+								this.oViewModel.setProperty("/isEnabledToSave", bIsEnabled);
 							},
 
 							formatDateToMMYYYY: function (sDate) {
@@ -376,13 +381,17 @@
 
 							onSaveVersionPress: function (oEvent) {
 								let oNewVersion = this.oViewModel.getProperty("/version");
-								oNewVersion.date = this.formatDateToMMYYYY(oNewVersion.date);
-								this.oVersionForm.setBusy(true);						
-								ssocket.emit("cmd_create", {
-									message: "createVersion",
-									socketid: socketid,
-									value: oNewVersion
-								});								
+								
+								let bIsAbleToSave= oVersion.name && oVersion.date && oVersion.type && oVersion.description;
+								if (bIsAbleToSave) {									
+									oNewVersion.date = this.formatDateToMMYYYY(oNewVersion.date);
+									this.oVersionForm.setBusy(true);						
+									ssocket.emit("cmd_create", {
+										message: "createVersion",
+										socketid: socketid,
+										value: oNewVersion
+									});						
+								}		
 							}
 
 						});
