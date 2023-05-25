@@ -157,6 +157,7 @@
 			this.dispatchEvent(new CustomEvent("onDataSaved", {
 				detail: {
 					properties: {
+						text: "saved data"
 					}
 				}
 			}));
@@ -372,6 +373,7 @@
 									});
 								// }
 								// this.oVersionForm.setBusy(false);
+								this.checkSavingEnabled();
 							},
 
 							checkSavingEnabled: function () {
