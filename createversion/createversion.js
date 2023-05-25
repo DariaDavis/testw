@@ -268,7 +268,7 @@
 							xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form"
 							xmlns="sap.m">
 							<VBox>
-								<form:SimpleForm id="versionForm">								
+								<form:SimpleForm id="versionForm" busyIndicatorDelay="0">								
 									<form:toolbar>
 										<Toolbar>
 											<Title text="Добавить версию"/>
