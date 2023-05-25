@@ -219,19 +219,13 @@
 						UI5(changedProperties, that, "msg");
 
 
-						sap.ui.getCore().getEventBus().publish("versionLoaded", data);
+						sap.ui.getCore().getEventBus().publish("versionLoaded", "ui5", data);
 
 						that._firePropertiesChanged();
 						that._fireDataSaved();
 
 						this.settings = {};
 						this.settings.sessionid = "";
-
-						// that.dispatchEvent(new CustomEvent("onClick", {
-						// 	detail: {
-						// 		settings: this.settings
-						// 	}
-						// }));
 					});
 
 					that._firstConnection = 1;
@@ -346,11 +340,11 @@
 									this.oViewModel = this.getView().getModel("view");
 									this.oVersionForm = this.getView().byId("versionForm");
 									this.oVersionForm.bindElement("view>/version");
-									sap.ui.getCore().getEventBus().subscribe("versionLoaded", this.onVersionLoaded, this);
+									sap.ui.getCore().getEventBus().subscribe("versionLoaded", "ui5", this.onVersionLoaded, this);
 								}
 							},
 
-							onVersionLoaded: function (oResponse) {
+							onVersionLoaded: function (oResponse, sR) {
 								// if (oResponse.status === "OK") {									
 								this.oViewModel.setProperty("/version", {
 									name: null,

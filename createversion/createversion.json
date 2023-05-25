@@ -57,10 +57,6 @@
 	"events": {
 		"onDataSaved": {
 			"description": "Called when the data saved"
-		},
-		"onClick": {
-			"description": "Called when the data saved"
 		}
-
 	}
   }
