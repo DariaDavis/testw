@@ -227,11 +227,11 @@
 						this.settings = {};
 						this.settings.sessionid = "";
 
-						that.dispatchEvent(new CustomEvent("onClick", {
-							detail: {
-								settings: this.settings
-							}
-						}));
+						// that.dispatchEvent(new CustomEvent("onClick", {
+						// 	detail: {
+						// 		settings: this.settings
+						// 	}
+						// }));
 					});
 
 					that._firstConnection = 1;
