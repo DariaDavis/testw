@@ -344,7 +344,7 @@
 								}
 							},
 
-							onVersionLoaded: function (oResponse, sR) {
+							onVersionLoaded: function (oResponse, sR, oData) {
 								// if (oResponse.status === "OK") {									
 								this.oViewModel.setProperty("/version", {
 									name: null,
