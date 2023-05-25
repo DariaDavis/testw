@@ -154,7 +154,7 @@
 		}
 
 		_fireDataSaved() {			
-			that.dispatchEvent(new Event("onDataSaved", {
+			that.dispatchEvent(new CustomEvent("onDataSaved", {
 				detail: {
 					properties: {
 					}
