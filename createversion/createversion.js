@@ -37,6 +37,8 @@
 
 			this._firstConnection = 0;
 			this._firstConnectionUI5 = 0;
+
+			this._onDataSavedEvent = new Event("onDataSaved");
 		}
 
 		connectedCallback() {
@@ -151,6 +153,15 @@
 			}));
 		}
 
+		_fireDataSaved() {			
+			that.dispatchEvent(new Event("onDataSaved", {
+				detail: {
+					properties: {
+					}
+				}
+			}));
+		}
+
 		get custValue() {
 			return this._export_settings.custValue;
 		}
@@ -223,16 +234,12 @@
 						sap.ui.getCore().getEventBus().publish("versionLoaded", data);
 
 						that._firePropertiesChanged();
+						that._fireDataSaved();
 
 						this.settings = {};
 						this.settings.sessionid = "";
 
 						that.dispatchEvent(new CustomEvent("onClick", {
-							detail: {
-								settings: this.settings
-							}
-						}));
-						that.dispatchEvent(new Event("onDataSaved", {
 							detail: {
 								settings: this.settings
 							}
