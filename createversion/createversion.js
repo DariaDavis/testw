@@ -10,15 +10,7 @@
 
 	oTmpl.innerHTML = `
       <style>
-      </style>
-		<script 
-				src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
-				data-sap-ui-libs="sap.m"
-				data-sap-ui-xx-bindingSyntax="complex"
-				data-sap-ui-theme="sap_belize"
-				data-sap-ui-compatVersion="edge"
-				data-sap-ui-preload="async"'>
-			</script>      
+      </style>	    
     `;
 
 	class CreateVersion extends HTMLElement {
