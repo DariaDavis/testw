@@ -153,8 +153,8 @@
 			}));
 		}
 
-		_fireDataSaved() {			
-			that.dispatchEvent(new CustomEvent("onDataSaved", {
+		_fireDataSaved() {
+			this.dispatchEvent(new CustomEvent("onDataSaved", {
 				detail: {
 					properties: {
 					}
