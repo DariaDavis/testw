@@ -1,3 +1,5 @@
+const { setMaxListeners } = require("events");
+
 (function () {
 	let _shadowRoot;
 
@@ -344,16 +346,18 @@
 								}
 							},
 
-							onVersionLoaded: function (oResponse, sR, oData) {
-								// if (oResponse.status === "OK") {									
-								this.oViewModel.setProperty("/version", {
-									name: null,
-									date: null,
-									type: null,
-									description: null
-								});
-								// }
-								// this.oVersionForm.setBusy(false);
+							onVersionLoaded: function (sEventName, sChannel, oResponse) {
+								if (oResponse.status === "success") {									
+									this.oViewModel.setProperty("/version", {
+										name: null,
+										date: null,
+										type: null,
+										description: null
+									});
+								} else {
+									sap.m.MessageBox.error.show("Произошла ошибка при сохранении версии");
+								}
+								this.oVersionForm.setBusy(false);
 								this.checkSavingEnabled();
 							},
 
@@ -375,7 +379,7 @@
 								let bIsAbleToSave = oNewVersion.name && oNewVersion.date && oNewVersion.type && oNewVersion.description;
 								if (bIsAbleToSave) {
 									oNewVersion.date = this.formatDateToMMYYYY(oNewVersion.date);
-									// this.oVersionForm.setBusy(true);						
+									this.oVersionForm.setBusy(true);						
 									ssocket.emit("cmd_create", {
 										message: "createVersion",
 										socketid: socketid,
