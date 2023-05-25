@@ -154,13 +154,8 @@
 		}
 
 		_fireDataSaved() {
-			this.dispatchEvent(new CustomEvent("onDataSaved", {
-				detail: {
-					properties: {
-						text: "saved data"
-					}
-				}
-			}));
+			var oEvent = new Event("onDataSaved");
+			this.dispatchEvent(oEvent);
 		}
 
 		get custValue() {
@@ -231,7 +226,7 @@
 
 						UI5(changedProperties, that, "msg");
 
-						
+
 						sap.ui.getCore().getEventBus().publish("versionLoaded", data);
 
 						that._firePropertiesChanged();
@@ -365,12 +360,12 @@
 
 							onVersionLoaded: function (oResponse) {
 								// if (oResponse.status === "OK") {									
-									this.oViewModel.setProperty("/version", {
-										name: null,
-										date: null,
-										type: null,
-										description: null
-									});
+								this.oViewModel.setProperty("/version", {
+									name: null,
+									date: null,
+									type: null,
+									description: null
+								});
 								// }
 								// this.oVersionForm.setBusy(false);
 								this.checkSavingEnabled();
@@ -390,17 +385,17 @@
 
 							onSaveVersionPress: function (oEvent) {
 								let oNewVersion = this.oViewModel.getProperty("/version");
-								
-								let bIsAbleToSave= oNewVersion.name && oNewVersion.date && oNewVersion.type && oNewVersion.description;
-								if (bIsAbleToSave) {									
+
+								let bIsAbleToSave = oNewVersion.name && oNewVersion.date && oNewVersion.type && oNewVersion.description;
+								if (bIsAbleToSave) {
 									oNewVersion.date = this.formatDateToMMYYYY(oNewVersion.date);
 									// this.oVersionForm.setBusy(true);						
 									ssocket.emit("cmd_create", {
 										message: "createVersion",
 										socketid: socketid,
 										value: oNewVersion
-									});						
-								}		
+									});
+								}
 							}
 
 						});
