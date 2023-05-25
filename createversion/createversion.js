@@ -1,5 +1,3 @@
-const { setMaxListeners } = require("events");
-
 (function () {
 	let _shadowRoot;
 
