@@ -356,15 +356,15 @@
 							},
 
 							onVersionLoaded: function (oResponse) {
-								if (oResponse.status === "OK") {									
+								// if (oResponse.status === "OK") {									
 									this.oViewModel.setProperty("/version", {
 										name: null,
 										date: null,
 										type: null,
 										description: null
 									});
-								}
-								this.oVersionForm.setBusy(false);
+								// }
+								// this.oVersionForm.setBusy(false);
 							},
 
 							checkSavingEnabled: function () {
@@ -385,7 +385,7 @@
 								let bIsAbleToSave= oNewVersion.name && oNewVersion.date && oNewVersion.type && oNewVersion.description;
 								if (bIsAbleToSave) {									
 									oNewVersion.date = this.formatDateToMMYYYY(oNewVersion.date);
-									this.oVersionForm.setBusy(true);						
+									// this.oVersionForm.setBusy(true);						
 									ssocket.emit("cmd_create", {
 										message: "createVersion",
 										socketid: socketid,
