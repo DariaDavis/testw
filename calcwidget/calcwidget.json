@@ -1,24 +1,24 @@
 {
 	"id": "streamline.sac.widget.calcwidget",
-	"version": "0.0.2",
+	"version": "0.0.1",
 	"name": "calcwidget",
 	"description": "calcwidget",
 	"newInstancePrefix": "calcwidget",
-	"vendor": "slc",
+	"vendor": "t4data",
 	"eula": "",
 	"license": "",
 	"webcomponents": [
 	  {
 		"kind": "main",
-		"tag": "streamline-sac-widget-calcwidget",
-		"url": "https://dev.streamline-c.com:8888/mergeGantt/src/customGantt.js",
+		"tag": "t4data-sac-widget-calcwidget",
+		"url": "https://dariadavis.github.io/testw/calcwidget/createversion.js",
 		"integrity": "",
 		"ignoreIntegrity": true
 	  },
 	  {
       "kind": "styling",
-      "tag": "streamline-sac-widget-calcwidgetstyling",
-      "url": "https://dev.streamline-c.com:8888/mergeGantt/src/customGanttStyling.js",
+      "tag": "t4data-sac-widget-calcwidgetstyling",
+      "url": "https://dariadavis.github.io/testw/calcwidget/createversion.js",
       "integrity": "",
       "ignoreIntegrity": true
     }
@@ -29,34 +29,34 @@
 		"description": "For internal use",
 		"default": ""
 	  },
-		"custValue": {
+		"widgetType": {
 		  "type": "string",
-		  "description": "footer",
+		  "description": "widget type",
 		  "default": ""
 		}
 	},
 	"methods": {
-		"getCustValue": {
+		"getWidgetType": {
 		  "returnType": "string",
-		  "description": "Get cust value",
+		  "description": "Get widget type",
 		  "parameters": [],
-		  "body": "return this.custValue;"
+		  "body": "return this.widgetType;"
 		},
-		"setCustValue": {
-		  "description": "Set cust value",
+		"setWidgetType": {
+		  "description": "Set widget type",
 		  "parameters": [
 			{
 			  "name": "value",
 			  "type": "string",
-			  "description": "The new cust value"
+			  "description": "New widget type"
 			}
 		  ],
-		  "body": "this.custValue = value;"
+		  "body": "this.widgetType = value;"
 		}
 	},
 	"events": {
-		"onStart": {
-			"description": "onStart events trigger"
+		"onProcedureHandled": {
+			"description": "onProcedureHandled events trigger"
 		}	
 	}
   }

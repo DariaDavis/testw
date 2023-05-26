@@ -28,16 +28,23 @@
           <legend>General</legend>
           <table>
             <tr>
-              <td><label for="custValue">CustValue</label></td>
-              <td><input id="custValue" name="custValue" type="text"></td>
+              <td><label for="custValue">Выберите тип выгрузки</label></td>
+              <td>
+                <select id="widgetType">
+                    <option key="t1">Загрузка Факт</option>
+                    <option key="t2"/>Загрузка Excel - Budget|Forcast</option>
+                    <option key="t3"/>Загрузка Excel</option>
+                    <option key="t4"/>Расчет</option>
+                </select>
+              </td>
             </tr>
           </table>
         </fieldset>
-        <button type="submit" hidden>Submit</button>
+        <button type="submit" hidden>Применить</button>
       </form>
     `;
 
-    class MergeGanttStyling extends HTMLElement {
+    class CalcWidgetStyling extends HTMLElement {
         constructor() {
             super();
             this._shadowRoot = this.attachShadow({ mode: "open" });
@@ -54,7 +61,7 @@
         _submit(e) {
             e.preventDefault();
             let properties = {};
-            for (let name of MergeGanttStyling.observedAttributes) {
+            for (let name of CalcWidgetStyling.observedAttributes) {
                 properties[name] = this[name];
             }
             this._firePropertiesChanged(properties);
@@ -77,11 +84,11 @@
             }));
         }
 
-        get custValue() {
-            return this.getValue("custValue");
+        get widgetType() {
+            return this.getValue("widgetType");
         }
-        set custValue(value) {
-            this.setValue("custValue", value);
+        set widgetType(value) {
+            this.setValue("widgetType", value);
         }
 
         getValue(id) {
@@ -93,7 +100,7 @@
 
         static get observedAttributes() {
             return [
-                "custValue"
+                "widgetType"
             ];
         }
 
@@ -103,5 +110,5 @@
             }
         }
     }
-    customElements.define("streamline-sac-widget-mergeganttstyling", MergeGanttStyling);
+    customElements.define("t4data-sac-widget-mergeganttstyling", CalcWidgetStyling);
 })();
