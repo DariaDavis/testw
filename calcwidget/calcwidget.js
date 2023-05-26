@@ -336,7 +336,7 @@
 								this.oViewModel.setProperty("/versions", oData);
 							},
 
-							getButtonNameByType: function (sType) {
+							prepareWidgetByType: function (sType) {
 								let sName = "";
 								let bShowDP = true;
 								switch (sType) {
