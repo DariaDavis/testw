@@ -217,7 +217,7 @@
 						UI5(changedProperties, that, "msg");
 
 
-						sap.ui.getCore().getEventBus().publish("versionLoaded", "ui5", data);
+						sap.ui.getCore().getEventBus().publish("procedureCompleted", "ui5", data);
 
 						that._firePropertiesChanged();
 						that._fireProcedureHandled();
@@ -346,7 +346,7 @@
 									case "t2":
 										sName = "Загрузка Excel - Budget|Forcast";
 										bShowDP = false;
-										this.getVersions();
+										// this.getVersions();
 										break;
 									case "t3":
 										sName = "Загрузка Excel";
@@ -354,7 +354,7 @@
 									case "t4":
 										sName = "Расчет";
 										bShowDP = false;
-										this.getVersions();
+										// this.getVersions();
 										break;
 									default:
 										break;
