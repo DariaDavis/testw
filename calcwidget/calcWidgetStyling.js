@@ -31,10 +31,10 @@
               <td><label for="custValue">Выберите тип выгрузки</label></td>
               <td>
                 <select id="widgetType">
-                    <option key="t1">Загрузка Факт</option>
-                    <option key="t2"/>Загрузка Excel - Budget|Forcast</option>
-                    <option key="t3"/>Загрузка Excel</option>
-                    <option key="t4"/>Расчет</option>
+                    <option value="t1">Загрузка Факт</option>
+                    <option value="t2"/>Загрузка Excel - Budget|Forcast</option>
+                    <option value="t3"/>Загрузка Excel</option>
+                    <option value="t4"/>Расчет</option>
                 </select>
               </td>
             </tr>
@@ -69,6 +69,11 @@
         }
         _change(e) {
             this._changeProperty(e.target.name);
+            let properties = {};
+            for (let name of CalcWidgetStyling.observedAttributes) {
+                properties[name] = this[name];
+            }
+            this._firePropertiesChanged(properties);
         }
         _changeProperty(name) {
             let properties = {};
