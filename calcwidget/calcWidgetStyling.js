@@ -110,5 +110,5 @@
             }
         }
     }
-    customElements.define("t4data-sac-widget-mergeganttstyling", CalcWidgetStyling);
+    customElements.define("t4data-sac-widget-calcwidgetstyling", CalcWidgetStyling);
 })();
