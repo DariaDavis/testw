@@ -271,7 +271,7 @@
 									<Select id="idSelectVersion" forceSelection="false" visible="false">
 										<core:Item key="{view>name}" text="{view>name}"/>
 									</Select>
-								</Vbox>
+								</VBox>
 								<Button id="idButton" text="Идет загрузка..." press="onRunProcedurePressed"/>
 							</HBox>							
 						</mvc:View>

@@ -1,5 +1,5 @@
 {
-	"id": "streamline.sac.widget.calcwidget",
+	"id": "t4data.sac.widget.calcwidget",
 	"version": "0.0.1",
 	"name": "calcwidget",
 	"description": "calcwidget",
@@ -11,14 +11,14 @@
 	  {
 		"kind": "main",
 		"tag": "t4data-sac-widget-calcwidget",
-		"url": "https://dariadavis.github.io/testw/calcwidget/createversion.js",
+		"url": "https://dariadavis.github.io/testw/calcwidget/calcwidget.js",
 		"integrity": "",
 		"ignoreIntegrity": true
 	  },
 	  {
       "kind": "styling",
       "tag": "t4data-sac-widget-calcwidgetstyling",
-      "url": "https://dariadavis.github.io/testw/calcwidget/createversion.js",
+      "url": "https://dariadavis.github.io/testw/calcwidget/calcWidgetStyling.js",
       "integrity": "",
       "ignoreIntegrity": true
     }
