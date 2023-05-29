@@ -267,12 +267,12 @@
 							xmlns="sap.m">
 							<HBox>
 								<VBox>
-									<DatePicker id="idDate" displayFormat="MM.y" visible="false"/>
-									<Select id="idSelectVersion" forceSelection="false" visible="false">
+									<DatePicker id="idDate" displayFormat="MM.y" visible="false" width="200px"/>
+									<Select id="idSelectVersion" forceSelection="false" visible="false" width="200px">
 										<core:Item key="{view>name}" text="{view>name}"/>
 									</Select>
 								</VBox>
-								<Button id="idButton" text="Идет загрузка" press="onRunProcedurePressed"/>
+								<Button id="idButton" text="Идет загрузка" press="onRunProcedurePressed" type="Ghost" class="sapUiSmallMarginBegin"/>
 							</HBox>							
 						</mvc:View>
 					</script>        
