@@ -322,7 +322,7 @@
 									this.prepareWidgetByType(that._export_settings.widgetType);
 
 									sap.ui.getCore().getEventBus().subscribe("procedureCompleted", "ui5", this.onProcedureCompleted, this);
-									sap.ui.getCore().getEventBus().subscribe("typeChanged", "ui5", this.prepareWidgetByType.bind(this, this.widgetType), this);
+									sap.ui.getCore().getEventBus().subscribe("typeChanged", "ui5", this.prepareWidgetByType.bind(this.widgetType, this.widgetType), this);
 								}
 							},
 
