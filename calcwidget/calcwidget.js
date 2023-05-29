@@ -8,6 +8,33 @@
 	let ssocket;
 	let socketid;
 
+	const oSettingsTable = {
+		t1: {
+			procName: "cmd_req_fact",
+			showDatePicker: true,
+			showVersSelect: false,
+			buttonText: "Загрузка Факт"
+		},
+		t2: {
+			procName: "cmd_req_ex_t",
+			showDatePicker: false,
+			showVersSelect: true,
+			buttonText: "Загрузка Excel - Budget|Forcast"
+		},
+		t3: {
+			procName: "cmd_req_ex",
+			showDatePicker: true,
+			showVersSelect: false,
+			buttonText: "Загрузка Excel"
+		},
+		t4: {
+			procName: "cmd_req_calc",
+			showDatePicker: false,
+			showVersSelect: true,
+			buttonText: "Расчет"
+		}
+	};
+
 	oTmpl.innerHTML = `
       <style>
       </style>	    
@@ -240,7 +267,7 @@
 		var that_ = that;
 		let content = document.createElement('div');
 		//widgetName = that._export_settings.name;
-		content.slot = "content";		
+		content.slot = "content";
 		if (that._firstConnectionUI5 === 0) {
 
 			let div0 = document.createElement('div');
@@ -319,7 +346,7 @@
 									this.oSelectVerion = this.getView().byId("idSelectVersion");
 									this.oButton = this.getView().byId("idButton");
 
-									if (that._export_settings.widgetType) {										
+									if (that._export_settings.widgetType) {
 										this.prepareWidgetByType(that._export_settings.widgetType);
 									}
 
@@ -335,36 +362,23 @@
 								});
 							},
 
-							prepareWidgetByType: function () {
-								const sType = that._export_settings.widgetType;
-								let sName = "";
-								let bShowDP = true;
-								switch (sType) {
-									case "t1":
-										sName = "Загрузка Факт";
-										break;
-									case "t2":
-										sName = "Загрузка Excel - Budget|Forcast";
-										bShowDP = false;
-										// this.getVersions();
-										break;
-									case "t3":
-										sName = "Загрузка Excel";
-										break;
-									case "t4":
-										sName = "Расчет";
-										bShowDP = false;
-										// this.getVersions();
-										break;
-									default:
-										break;
-								}
-								this.oDatePicker.setVisible(bShowDP);
-								this.oSelectVerion.setVisible(!bShowDP);
-								this.oButton.setText(sName);
+							setVersions: function(oData) {
+								this.oViewModel.setProperty("/versions", oData);
 							},
 
-							onProcedureCompleted: function (sEventName, sChannel, oResponse) {								
+							prepareWidgetByType: function () {
+								const oTypeSettings = oSettingsTable[that._export_settings.widgetType];
+								if (oTypeSettings) {
+									this.oDatePicker.setVisible(oTypeSettings.showDatePicker);
+									this.oSelectVerion.setVisible(oTypeSettings.showVersSelect);
+									this.oButton.setText(oTypeSettings.buttonText);
+									if (oTypeSettings.showVersSelect) {
+										//this.getVersions();
+									}
+								}
+							},
+
+							onProcedureCompleted: function (sEventName, sChannel, oResponse) {
 								if (oResponse.status === "error") {
 									sap.m.MessageBox.error.show("Произошла ошибка при выполнении процедуры");
 									return;
@@ -374,38 +388,28 @@
 								}
 							},
 
-							onRunProcedurePressed: function (oEvent) {
-								const sWidgetType = this.oViewModel.getProperty("/widgetType");
-								let sProcName = "";
-								let oPayload = {};
+							onRunProcedurePressed: function () {
+								const oTypeSettings = oSettingsTable[that._export_settings.widgetType];
+								if (oTypeSettings) {
+									let oPayload = {};
+									if (oTypeSettings.showDatePicker) {										
+										oPayload.date = this.formatDateToMMYYYY(this.oDatePicker.getValue());
+									} else if (oTypeSettings.showVersSelect) {
+										oPayload.version = this.oSelectVerion.getSelectedKey();
+									}
 
-								switch (sWidgetType) {
-									case "t1":
-										sProcName = "cmd_req_fact";
-										oPayload.date = this.formatDateToMMYYYY(this.oDatePicker.getValue());
-										break;
-									case "t2":
-										sProcName = "cmd_req_ex_t";
-										oPayload.version = this.oSelectVerion.getSelectedKey();
-										break;
-									case "t3":
-										sProcName = "cmd_req_ex";
-										oPayload.date = this.formatDateToMMYYYY(this.oDatePicker.getValue());
-										break;
-									case "t4":
-										sProcName = "cmd_req_calc";
-										oPayload.version = this.oSelectVerion.getSelectedKey();
-										break;
-									default:
-										break;
+									if (!oPayload.date && !oPayload.version) {										
+										sap.m.MessageBox.error.show("Недостаточно данных для вызова процедуры");
+										return;
+									}
+									
+									ssocket.emit(oTypeSettings.procName, {
+										message: "loadProccess",
+										socketid: socketid,
+										value: oPayload
+									});
 								}
-
-								ssocket.emit(sProcName, {
-									message: "loadProccess",
-									socketid: socketid,									
-									value: oPayload
-								});
-							},
+							},						
 
 							formatDateToMMYYYY: function (sDate) {
 								let sResult = "";
@@ -424,7 +428,7 @@
 				oCurrentView = oView;
 			});
 		} else if (changedProperties.widgetType) {
-			
+
 			sap.ui.getCore().getEventBus().publish("typeChanged", "ui5", changedProperties);
 
 		}
