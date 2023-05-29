@@ -382,7 +382,7 @@
 								switch (sWidgetType) {
 									case "t1":
 										sProcName = "cmd_req_fact";
-										oPayload.date = formatDateToMMYYYY(this.oDatePicker.getValue());
+										oPayload.date = this.formatDateToMMYYYY(this.oDatePicker.getValue());
 										break;
 									case "t2":
 										sProcName = "cmd_req_ex_t";
@@ -390,7 +390,7 @@
 										break;
 									case "t3":
 										sProcName = "cmd_req_ex";
-										oPayload.date = formatDateToMMYYYY(this.oDatePicker.getValue());
+										oPayload.date = this.formatDateToMMYYYY(this.oDatePicker.getValue());
 										break;
 									case "t4":
 										sProcName = "cmd_req_calc";
