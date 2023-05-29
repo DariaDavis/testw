@@ -272,7 +272,7 @@
 										<core:Item key="{view>name}" text="{view>name}"/>
 									</Select>
 								</VBox>
-								<Button id="idButton" text="Идет загрузка" press="onRunProcedurePressed" type="Ghost" class="sapUiSmallMarginBegin"/>
+								<Button id="idButton" text="Выберите тип" press="onRunProcedurePressed" type="Ghost" class="sapUiSmallMarginBegin"/>
 							</HBox>							
 						</mvc:View>
 					</script>        
@@ -319,7 +319,9 @@
 									this.oSelectVerion = this.getView().byId("idSelectVersion");
 									this.oButton = this.getView().byId("idButton");
 
-									this.prepareWidgetByType(that._export_settings.widgetType);
+									if (that._export_settings.widgetType) {										
+										this.prepareWidgetByType(that._export_settings.widgetType);
+									}
 
 									sap.ui.getCore().getEventBus().subscribe("procedureCompleted", "ui5", this.onProcedureCompleted, this);
 									sap.ui.getCore().getEventBus().subscribe("typeChanged", "ui5", this.prepareWidgetByType, this);
