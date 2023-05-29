@@ -272,7 +272,7 @@
 										<core:Item key="{view>name}" text="{view>name}"/>
 									</Select>
 								</VBox>
-								<Button id="idButton" text="Идет загрузка..." press="onRunProcedurePressed"/>
+								<Button id="idButton" text="Идет загрузка" press="onRunProcedurePressed"/>
 							</HBox>							
 						</mvc:View>
 					</script>        
@@ -322,7 +322,7 @@
 									this.prepareWidgetByType(that._export_settings.widgetType);
 
 									sap.ui.getCore().getEventBus().subscribe("procedureCompleted", "ui5", this.onProcedureCompleted, this);
-									sap.ui.getCore().getEventBus().subscribe("typeChanged", "ui5", this.prepareWidgetByType.bind(this.widgetType, this.widgetType), this);
+									sap.ui.getCore().getEventBus().subscribe("typeChanged", "ui5", this.prepareWidgetByType, this);
 								}
 							},
 
@@ -333,11 +333,8 @@
 								});
 							},
 
-							setVersions: function(oData) {
-								this.oViewModel.setProperty("/versions", oData);
-							},
-
 							prepareWidgetByType: function (sType) {
+								const sType = that._export_settings.widgetType;
 								let sName = "";
 								let bShowDP = true;
 								switch (sType) {
