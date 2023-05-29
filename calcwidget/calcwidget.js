@@ -380,7 +380,7 @@
 
 							onProcedureCompleted: function (sEventName, sChannel, oResponse) {
 								if (oResponse.status === "error") {
-									sap.m.MessageBox.error.show("Произошла ошибка при выполнении процедуры");
+									sap.m.MessageBox.error("Произошла ошибка при выполнении процедуры");
 									return;
 								}
 								if (oResponse.procName === "requestVersion") {
@@ -399,7 +399,7 @@
 									}
 
 									if (!oPayload.date && !oPayload.version) {										
-										sap.m.MessageBox.error.show("Недостаточно данных для вызова процедуры");
+										sap.m.MessageBox.error("Недостаточно данных для вызова процедуры");
 										return;
 									}
 									
@@ -414,7 +414,7 @@
 							formatDateToMMYYYY: function (sDate) {
 								let sResult = "";
 								let aDateProp = sDate.split("/");
-								return `${aDateProp[1]}.${aDateProp[2]}`;
+								return sDate? `${aDateProp[1]}.${aDateProp[2]}`: "";
 							}
 						});
 					});
