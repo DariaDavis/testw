@@ -240,7 +240,7 @@
 		var that_ = that;
 		let content = document.createElement('div');
 		//widgetName = that._export_settings.name;
-		content.slot = "content";
+		content.slot = "content";		
 		if (that._firstConnectionUI5 === 0) {
 
 			let div0 = document.createElement('div');
@@ -322,6 +322,7 @@
 									this.prepareWidgetByType(that._export_settings.widgetType);
 
 									sap.ui.getCore().getEventBus().subscribe("procedureCompleted", "ui5", this.onProcedureCompleted, this);
+									sap.ui.getCore().getEventBus().subscribe("typeChanged", "ui5", this.prepareWidgetByType.bind(this, this.widgetType), this);
 								}
 							},
 
@@ -423,6 +424,10 @@
 				oView.placeAt(content);
 				oCurrentView = oView;
 			});
+		} else if (changedProperties.widgetType) {
+			
+			sap.ui.getCore().getEventBus().publish("typeChanged", "ui5", changedProperties);
+
 		}
 
 	}
