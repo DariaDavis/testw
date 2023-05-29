@@ -333,7 +333,7 @@
 								});
 							},
 
-							prepareWidgetByType: function (sType) {
+							prepareWidgetByType: function () {
 								const sType = that._export_settings.widgetType;
 								let sName = "";
 								let bShowDP = true;
