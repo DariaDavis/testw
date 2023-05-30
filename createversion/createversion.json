@@ -14,45 +14,16 @@
 		"url": "https://dariadavis.github.io/testw/createversion/createversion.js",
 		"integrity": "",
 		"ignoreIntegrity": true
-	  },
-	  {
-      "kind": "styling",
-      "tag": "t4data-sac-widget-createversionstyling",
-      "url": "https://dariadavis.github.io/testw/createversion/createversionStyling.js",
-      "integrity": "",
-      "ignoreIntegrity": true
-    }
+	  }
 	],
 	"properties": {
 	  "metadata": {
 		"type": "string",
 		"description": "For internal use",
 		"default": ""
-	  },
-		"custValue": {
-		  "type": "string",
-		  "description": "footer",
-		  "default": ""
-		}
+	  }
 	},
-	"methods": {
-		"getCustValue": {
-		  "returnType": "string",
-		  "description": "Get cust value",
-		  "parameters": [],
-		  "body": "return this.custValue;"
-		},
-		"setCustValue": {
-		  "description": "Set cust value",
-		  "parameters": [
-			{
-			  "name": "value",
-			  "type": "string",
-			  "description": "The new cust value"
-			}
-		  ],
-		  "body": "this.custValue = value;"
-		}
+	"methods": {		
 	},
 	"events": {
 		"onDataSaved": {

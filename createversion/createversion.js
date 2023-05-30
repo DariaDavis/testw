@@ -25,7 +25,6 @@
 
 			_id = createGuid();
 			this._export_settings = {};
-			this._export_settings.custValue = "";
 
 			this._firstConnection = 0;
 			this._firstConnectionUI5 = 0;
@@ -150,18 +149,9 @@
 			this.dispatchEvent(oEvent);
 		}
 
-		get custValue() {
-			return this._export_settings.custValue;
-		}
-		set custValue(value) {
-			this._export_settings.custValue = value;
-		}
 
 		static get observedAttributes() {
-			return [
-				"custValue",
-				"hierData"
-			];
+			return [];
 		}
 
 		attributeChangedCallback(name, oldValue, newValue) {
