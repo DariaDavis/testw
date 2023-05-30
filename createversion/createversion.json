@@ -1,9 +1,9 @@
 {
 	"id": "t4data.sac.widget.createversion",
 	"version": "0.0.1",
-	"name": "createversion",
-	"description": "createversion",
-	"newInstancePrefix": "createversion",
+	"name": "ADD_VERS_C_WIDGET",
+	"description": "add new version",
+	"newInstancePrefix": "ADD_VERS_C_WIDGET",
 	"vendor": "t4data",
 	"eula": "",
 	"license": "",
