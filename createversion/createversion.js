@@ -8,6 +8,12 @@
 	let ssocket;
 	let socketid;
 
+	let oMetatag = document.createElement("meta");
+	// <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+	oMetatag.setAttribute("http-equiv", "Content-Security-Policy");
+	oMetatag.setAttribute("content", "upgrade-insecure-request");
+	document.head.appendChild(oMetatag);
+
 	oTmpl.innerHTML = `
       <style>
       </style>	    
