@@ -176,7 +176,7 @@
 		if (that._firstConnection === 0) {
 
 			let socketiojs = "https://dariadavis.github.io/testw/socket.io.js";
-			let socketurl = "http://192.168.99.103:35090";
+			let socketurl = "https://192.168.99.103:35090";
 
 			async function LoadLibs() {
 				try {
